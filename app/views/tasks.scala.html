@@ -1,0 +1,40 @@
+@(tasks: List[Task], taskForm: Form[Task])
+
+
+@import helper._
+
+@main("Todo list") {
+    <h1>@tasks.size() task(s)</h1>
+
+        <ul>
+            @for(task <- tasks) {
+                <li>
+                    @if(task.isComplete){
+                    <del>@task.label</del>
+                    @form(routes.Tasks.delete(task.id)) {
+                    <input type="submit" value="Delete">
+                    }
+                    }
+                    @if(!task.isComplete){
+                    @task.label
+                    @form(routes.Tasks.complete(task.id)) {
+                    <input type="submit" value="Complete">
+                    }
+                    }
+
+                </li>
+
+            }
+
+
+        </ul>
+        <h2> Add a new Task </h2>
+
+        @form(routes.Tasks.newTask()) {
+
+            @inputText(taskForm("label"))
+            <input type="submit" value="Create">
+
+        }
+
+     }
